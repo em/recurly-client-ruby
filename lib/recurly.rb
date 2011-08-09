@@ -18,7 +18,6 @@ require 'recurly/formats/xml_with_errors'
 require 'recurly/config_parser'
 require 'recurly/rails3/railtie' if defined?(::Rails::Railtie)
 require 'recurly/base'
-require 'recurly/signing'
 
 # load rails2 fixes
 if defined?(::Rails::VERSION::MAJOR) and ::Rails::VERSION::MAJOR == 2
@@ -38,7 +37,7 @@ module Recurly
   autoload :Plan,           'recurly/plan'
   autoload :Subscription,   'recurly/subscription'
   autoload :Transaction,    'recurly/transaction'
-  autoload :Transparent,    'recurly/transparent'
+  autoload :Encryption,     'recurly/encryption'
 
   class << self
     attr_accessor :username, :password, :environment, :subdomain, :private_key
