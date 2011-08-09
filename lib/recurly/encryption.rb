@@ -21,23 +21,23 @@ module Recurly
     end
 
     def self.sign_billing_info_update(account_code)
-      generate_signature('billinginfoupdate', account_code)
+      generate_signature(['billinginfoupdate', account_code])
     end
 
     def self.sign_transaction(account_code, currency, amount_in_cents)
-      generate_signature('transactioncreate', account_code, currency, amount_in_cents) 
+      generate_signature(['transactioncreate', account_code, currency, amount_in_cents]) 
     end
 
     def self.verify_subscription(account_code, plan_code, add_on_codes, coupon_code)
-      verify_params('subscriptioncreated', account_code, plan_code, add_on_codes, coupon_code) 
+      verify_params(['subscriptioncreated', account_code, plan_code, add_on_codes, coupon_code]) 
     end
 
     def self.verify_transaction(account_code, currency, amount_in_cents, uuid)
-      verify_params('transactioncreated', account_code, currency, amount_in_cents, uuid) 
+      verify_params(['transactioncreated', account_code, currency, amount_in_cents, uuid]) 
     end
 
     def self.verify_billing_info_update(account_code)
-      verify_params('billinginfoupdated', account_code) 
+      verify_params(['billinginfoupdated', account_code]) 
     end
   end
 end
