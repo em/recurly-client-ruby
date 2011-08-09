@@ -18,6 +18,7 @@ require 'recurly/formats/xml_with_errors'
 require 'recurly/config_parser'
 require 'recurly/rails3/railtie' if defined?(::Rails::Railtie)
 require 'recurly/base'
+require 'recurly/signing'
 
 # load rails2 fixes
 if defined?(::Rails::VERSION::MAJOR) and ::Rails::VERSION::MAJOR == 2
