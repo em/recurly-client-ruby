@@ -37,7 +37,7 @@ module Recurly
   autoload :Plan,           'recurly/plan'
   autoload :Subscription,   'recurly/subscription'
   autoload :Transaction,    'recurly/transaction'
-  autoload :Encryption,     'recurly/encryption'
+  autoload :Verification,     'recurly/verification'
 
   class << self
     attr_accessor :username, :password, :environment, :subdomain, :private_key
