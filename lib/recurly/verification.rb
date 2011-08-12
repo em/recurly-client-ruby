@@ -3,10 +3,10 @@ module Recurly
     def digest_data(data) 
       if data.is_a? Array
         return nil if data.empty?
-        '[%s]' % data.map{|v|digest_data(v)}.reject{|v|v.nil?}.join(',')
+        '[%s]' % data.map{|v|digest_data(v)}.compact.join(',')
       elsif data.is_a? Hash
         digest_data Hash[data.sort].map {|k,v|
-          prefix = (k =~ /\A\d+\Z/) ? '' : (k+':')
+          prefix = (k =~ /\A\d+\Z/) ? '' : (k.to_s+':')
           (v=digest_data(v)).nil? ? nil : '%s%s' % [prefix,v]
         }
       else
@@ -22,7 +22,6 @@ module Recurly
       input_data = [timestamp,claim,args]
       input_string = digest_data(input_data)
 
-      pp input_string
       digest_key = ::Digest::SHA1.digest(Recurly.private_key)
       sha1_hash = ::OpenSSL::Digest::Digest.new("sha1")
       signature = ::OpenSSL::HMAC.hexdigest(sha1_hash, digest_key, input_string.to_s)
@@ -31,10 +30,10 @@ module Recurly
 
     def verify_params(claim, args)
       return false unless signature = args[:signature]
-      signature = args.delete 'signature'
+      args[:signature] = nil
       hmac, timestamp = signature.split('-')
       age = Time.now.to_i - timestamp.to_i
-      # return false if age > 3600 || age < 0
+      return false if age > 3600 || age < 0
       signature == generate_signature(claim, args, timestamp)
     end
 
